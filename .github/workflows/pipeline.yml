@@ -1,0 +1,81 @@
+name: CICD
+
+on:
+  push:
+    branches: [main]
+
+env:
+  HASH: ${{ github.sha }}
+  ECR_REPOSITORY: awsbackendapp
+  ECS_SERVICE: awsbackendapp
+  ECS_CLUSTER: awsbackendapp
+  ECS_TASK_DEFINITION: task-definition.json
+  CONTAINER_NAME: awsbackendapp
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::152547606290:role/awsbackendappa_gh_actions_role
+          role-session-name: samplerolesession
+          aws-region: 'us-east-1'
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: 'true'
+          
+      - name: Build, tag, and push test image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: $HASH-test
+          REPOSITORY: $ECR_REPOSITORY
+        run: |
+          docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      - name: Test
+        run: |
+          docker run --rm  $ECR_REGISTRY/$REPOSITORY:test python test.py         
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: $HASH
+          REPOSITORY: $ECR_REPO
+        run: |
+          docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      - name: Enter dir and deploy
+        uses: serverless/github-action@v3.2
+        with:
+          args: -c "cd ./../../Lambda/delete/ && serverless deploy"
+          entrypoint: /bin/sh
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: $ECS_TASK_DEFINITION 
+          container-name: $CONTAINER_NAME
+          image: ${{ steps.build-image.outputs.image }}    
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: $ECS_SERVICE
+          cluster: $ECS_CLUSTER
+          wait-for-service-stability: true
