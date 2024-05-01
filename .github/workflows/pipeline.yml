@@ -5,12 +5,12 @@ on:
     branches: [main]
 
 env:
-  HASH: ${{ github.sha }}
-  ECR_REPOSITORY: awsbackendapp
-  ECS_SERVICE: awsbackendapp
-  ECS_CLUSTER: awsbackendapp
-  ECS_TASK_DEFINITION: task-definition.json
-  CONTAINER_NAME: awsbackendapp
+  HASH: "${{ github.sha }}"
+  ECR_REPOSITORY: "awsbackendapp"
+  ECS_SERVICE: "awsbackendapp"
+  ECS_CLUSTER: "awsbackendapp"
+  ECS_TASK_DEFINITION: "task-definition.json"
+  CONTAINER_NAME: "awsbackendapp"
 
 permissions:
   id-token: write
