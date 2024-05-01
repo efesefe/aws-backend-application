@@ -5,12 +5,12 @@ on:
     branches: [main]
 
 env:
-  HASH: "${{ github.sha }}"
-  ECR_REPOSITORY: "awsbackendapp"
-  ECS_SERVICE: "awsbackendapp"
-  ECS_CLUSTER: "awsbackendapp"
-  ECS_TASK_DEFINITION: "task-definition.json"
-  CONTAINER_NAME: "awsbackendapp"
+  HASH: '${{ github.sha }}'
+  ECR_REPOSITORY: 'awsbackendapp'
+  ECS_SERVICE: 'awsbackendapp'
+  ECS_CLUSTER: 'awsbackendapp'
+  ECS_TASK_DEFINITION: 'task-definition.json'
+  CONTAINER_NAME: 'awsbackendapp'
 
 permissions:
   id-token: write
@@ -22,9 +22,6 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
-      - name: Show Hash
-        run: |
-          echo "hash=$HASH" >> $GITHUB_OUTPUT
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -40,7 +37,7 @@ jobs:
       - name: Build, tag, and push test image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: $HASH-test
+          IMAGE_TAG: ${{env.HASH}}-test
           REPOSITORY: $ECR_REPOSITORY
         run: |
           docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
@@ -54,7 +51,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: $HASH
+          IMAGE_TAG: ${{env.HASH}}
           REPOSITORY: $ECR_REPO
         run: |
           docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
