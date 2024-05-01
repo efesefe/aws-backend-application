@@ -44,8 +44,12 @@ jobs:
           docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
       - name: Test
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{env.HASH}}-test
+          REPOSITORY: ${{env.ECR_REPOSITORY}}
         run: |
-          docker run --rm  $ECR_REGISTRY/$REPOSITORY:test python test.py         
+          docker run --rm  $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG python test.py
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
