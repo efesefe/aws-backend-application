@@ -64,7 +64,7 @@ jobs:
       - name: Enter dir and deploy
         uses: serverless/github-action@v3.2
         with:
-          args: -c "cd ./../../Lambda/delete/ && serverless deploy"
+          args: -c "cd ./Lambda/delete/ && serverless deploy"
           entrypoint: /bin/sh
 
       - name: Fill in the new image ID in the Amazon ECS task definition
