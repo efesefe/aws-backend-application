@@ -1,26 +1,12 @@
 import boto3
 from bottle import route, run, template, get, post, request
+
 dynamodb = boto3.client(
         'dynamodb',
 )
 
-#dynamodb.put_item(
-#    TableName='picus',
-#    Item={
-#        'PicusID': {'S': 'id#1'},
-#        'name': {'S': 'SomeName'},
-#        'inventory': {'N': '500'},
-#    }
-#)
-#response = dynamodb.get_item(
-#    TableName='picus',
-#    Key={
-#        'PicusID': {'S': 'id#1'},
-#    }
-#)
 response = dynamodb.scan(TableName='picus')
 item = response['Items']
-print(item)
 
 @get('/picus/list')
 def index():
@@ -41,7 +27,6 @@ def index():
                 TableName='picus',
                 Item=item
             )
-#    res = res["PicusID"]["S"]
     print(res)
     print(type(res))
     return res
