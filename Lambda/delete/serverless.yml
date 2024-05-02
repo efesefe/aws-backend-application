@@ -1,4 +1,4 @@
-service: foo
+service: picus_delete
 frameworkVersion: ^3.22.0
 
 provider:
