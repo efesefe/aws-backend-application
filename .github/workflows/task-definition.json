@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:152547606290:task-definition/awsbackendapp:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:152547606290:task-definition/picusapp:1",
     "containerDefinitions": [
         {
-            "name": "awsbackendapp",
-            "image": "152547606290.dkr.ecr.us-east-1.amazonaws.com/awsbackendapp",
+            "name": "picusapp",
+            "image": "152547606290.dkr.ecr.us-east-1.amazonaws.com/picusapp",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "awsbackendapp-8080-tcp",
+                    "name": "picusapp-8080-tcp",
                     "containerPort": 8080,
                     "hostPort": 8080,
                     "protocol": "tcp",
@@ -24,7 +24,7 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/awsbackendapp",
+                    "awslogs-group": "/ecs/picusapp",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 },
@@ -33,7 +33,8 @@
             "systemControls": []
         }
     ],
-    "family": "awsbackendapp",
+    "family": "picusapp",
+    "taskRoleArn": "arn:aws:iam::152547606290:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::152547606290:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
@@ -51,6 +52,9 @@
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
         },
         {
             "name": "ecs.capability.execution-role-ecr-pull"
@@ -71,7 +75,6 @@
         "FARGATE"
     ],
     "requiresCompatibilities": [
-        "EC2",
         "FARGATE"
     ],
     "cpu": "512",
@@ -80,7 +83,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-05-01T18:18:34.232Z",
+    "registeredAt": "2024-05-02T20:15:36.096Z",
     "registeredBy": "arn:aws:iam::152547606290:root",
     "tags": []
 }
