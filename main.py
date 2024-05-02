@@ -1,12 +1,15 @@
 import boto3
 from bottle import route, run, template, get, post, request
 
-dynamodb = boto3.client(
+try:
+    dynamodb = boto3.client(
         'dynamodb',
-)
+    )
+except:
+    print("Boto failed to connect")
 
-response = dynamodb.scan(TableName='picus')
-item = response['Items']
+#response = dynamodb.scan(TableName='picus')
+#item = response['Items']
 
 @get('/picus/list')
 def index():
