@@ -6,11 +6,11 @@ on:
 
 env:
   HASH: '${{ github.sha }}'
-  ECR_REPOSITORY: 'awsbackendapp'
-  ECS_SERVICE: 'awsbackendapp'
-  ECS_CLUSTER: 'awsbackendapp'
+  ECR_REPOSITORY: 'picusapp'
+  ECS_SERVICE: 'picusapp'
+  ECS_CLUSTER: 'picusapp'
   ECS_TASK_DEFINITION: '.github/workflows/task-definition.json'
-  CONTAINER_NAME: 'awsbackendapp'
+  CONTAINER_NAME: 'picusapp'
 
 permissions:
   id-token: write

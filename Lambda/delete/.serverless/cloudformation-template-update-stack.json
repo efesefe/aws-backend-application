@@ -74,7 +74,7 @@
     "DeleteLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/foo"
+        "LogGroupName": "/aws/lambda/picusDelete"
       }
     },
     "IamRoleLambdaExecution": {
@@ -102,7 +102,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "foo",
+                  "picusDelete",
                   "dev",
                   "lambda"
                 ]
@@ -120,7 +120,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/foo:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/picusDelete:*"
                     }
                   ]
                 },
@@ -131,7 +131,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/foo:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/picusDelete:*:*"
                     }
                   ]
                 },
@@ -151,7 +151,7 @@
           "Fn::Join": [
             "-",
             [
-              "foo",
+              "picusDelete",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -169,11 +169,11 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/foo/dev/1714571356945-2024-05-01T13:49:16.945Z/foo.zip"
+          "S3Key": "serverless/picusDelete/dev/1714673654945-2024-05-02T18:14:14.945Z/picusDelete.zip"
         },
         "Handler": "delete.handler",
         "Runtime": "python3.8",
-        "FunctionName": "foo",
+        "FunctionName": "picusDelete",
         "MemorySize": 256,
         "Timeout": 60,
         "Architectures": [
@@ -195,7 +195,7 @@
         "DeleteLogGroup"
       ]
     },
-    "DeleteLambdaVersiont6l7dsfguEw1KuIrq0cfPAKGRv7DOfMPZu07RGQI1ZY": {
+    "DeleteLambdaVersionklX1ARResfC6CsZU1tq3z8IaYTV7k2ONLe9iO3L7A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -208,7 +208,7 @@
     "HttpApi": {
       "Type": "AWS::ApiGatewayV2::Api",
       "Properties": {
-        "Name": "dev-foo",
+        "Name": "dev-picusDelete",
         "ProtocolType": "HTTP"
       }
     },
@@ -307,16 +307,16 @@
         "Ref": "ServerlessDeploymentBucket"
       },
       "Export": {
-        "Name": "sls-foo-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-picusDelete-dev-ServerlessDeploymentBucketName"
       }
     },
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersiont6l7dsfguEw1KuIrq0cfPAKGRv7DOfMPZu07RGQI1ZY"
+        "Ref": "DeleteLambdaVersionklX1ARResfC6CsZU1tq3z8IaYTV7k2ONLe9iO3L7A"
       },
       "Export": {
-        "Name": "sls-foo-dev-DeleteLambdaFunctionQualifiedArn"
+        "Name": "sls-picusDelete-dev-DeleteLambdaFunctionQualifiedArn"
       }
     },
     "HttpApiId": {
@@ -325,7 +325,7 @@
         "Ref": "HttpApi"
       },
       "Export": {
-        "Name": "sls-foo-dev-HttpApiId"
+        "Name": "sls-picusDelete-dev-HttpApiId"
       }
     },
     "HttpApiUrl": {
@@ -350,7 +350,7 @@
         ]
       },
       "Export": {
-        "Name": "sls-foo-dev-HttpApiUrl"
+        "Name": "sls-picusDelete-dev-HttpApiUrl"
       }
     }
   }
