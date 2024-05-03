@@ -5,7 +5,7 @@ dynamodb = boto3.client(
 )
 
 def handler(event, context):
-    id = event["PicusID"]
+    id = event.get("queryStringParameters")
     res = dynamodb.delete_item(
                 TableName='picus',
                 Key={
