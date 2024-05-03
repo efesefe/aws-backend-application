@@ -6,3 +6,8 @@
 
 
 ![awsbackend](https://github.com/efesefe/aws-backend-application/assets/62351075/52f5ba16-fdfd-4b57-9132-d20a2b68ed16)
+
+
+When a DELETE call is made to the https://z8x6swslv6.execute-api.us-east-1.amazonaws.com/picus/{key} URL it triggers the Lambda function which is deployed on the AWS. Other operations (GET, PUT, LIST) can only be called via the public IP of the ECS stack.
+
+![awsbackend_network](https://github.com/efesefe/aws-backend-application/assets/62351075/1dc37718-5dc8-4ef4-bfa0-51912e401f80)
