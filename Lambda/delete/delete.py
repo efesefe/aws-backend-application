@@ -6,12 +6,15 @@ dynamodb = boto3.client(
 )
 
 def handler(event, context):
-    id = json.dumps(event.get("rawPath")).replace(r"/", "")
-    res = dynamodb.delete_item(
-                TableName='picus',
-                Key={
-                        "PicusID":{"S": id},
-                    },
-                ConditionExpression="attribute_exists (PicusID)",
-            )
-    return res
+    id = event.get("path").replace("/", "")
+    try:
+        res = dynamodb.delete_item(
+                    TableName='picus',
+                    Key={
+                            "PicusID":{"S": id},
+                        },
+                    ConditionExpression="attribute_exists (PicusID)",
+                )
+    except:
+        return {"statusCode": 404,"body": json.dumps("item not found")}
+    return {"statusCode": 200,"body": json.dumps(res)}
