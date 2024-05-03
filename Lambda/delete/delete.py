@@ -1,11 +1,12 @@
 import boto3
+import json
 
 dynamodb = boto3.client(
         'dynamodb',
 )
 
 def handler(event, context):
-    id = event.get("queryStringParameters")
+    id = json.dumps(event.get("rawPath")).replace(r"/", "")
     res = dynamodb.delete_item(
                 TableName='picus',
                 Key={
